@@ -1,6 +1,6 @@
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
-import org.jetbrains.annotations.Nullable;
+
 
 
 public class Demo {
@@ -14,7 +14,6 @@ public class Demo {
     }
 
 
-    @Nullable
     private IDevice usingWaitLoop() {
         AndroidDebugBridge adb = AndroidDebugBridge.createBridge();
 
