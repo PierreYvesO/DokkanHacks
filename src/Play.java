@@ -1,194 +1,228 @@
 import com.android.ddmlib.*;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.Arrays;
-
-
 import static java.lang.Thread.*;
 
 class Play {
     private int lvl;
-    private IDevice device;
-    private RawImage rawImage;
     private String state = "start";
     private int waitTimes = 0;
-    /*
-     * 1 -  X  _  _
-     * 2 -  _  X  _
-     * 3 -  _  _  X
-     * 4 -   X   _
-     * 5 -   _   X
-     * */
-    private final int[][] POS_LVL = new int[][]{{190, 1318}, {575, 1318}, {870, 1318}, {360, 1318}, {700, 1318}};
 
-    // 1 Orange 2 Gris
-    private final int[][] COLOR_RUN = new int[][]{{255, 101, 0}, {99, 97, 99}, {255, 255, 173}, {239, 178, 107}, {247, 170, 16},{255, 158, 0}};
+    //Button you click to choose the level you play
+    private final Button B_LEVEL = new Button(110, 1285, 900, 115);
 
-    private final int[][] multiPath = {{370, 880}, {370, 880}, {370, 880}, {370, 880}};
+    //Buttons for a level with 3 difficulties
+    private final Button B_DIFF_LEFT_3 = new Button(270, 1225, 220, 220);
+    private final Button B_DIFF_MIDDLE_3 = new Button(590, 1575, 220, 220);
+    private final Button B_DIFF_RIGHT_3 = new Button(203, 1575, 220, 220);
+
+    //Buttons for a level with 2 difficulties
+    private final Button B_DIFF_LEFT_2 = new Button(270, 1225, 220, 220);
+    private final Button B_DIFF_RIGHT_2 = new Button(590, 1225, 220, 220);
+
+    //Button to choose a friend
+    private final Button B_FRIEND = new Button(65, 605, 950, 195);
+
+    //Button to start the level
+    private final Button B_START = new Button(805, 1555, 225, 90);
+
+
+    //Button to check the fighting state
+    //private final PixelButton figthingState = new PixelButton(0, 0, 0, 0, 980, 233, PixelButton.FIGHT_ORANGE);
+
+    //Button you click to go through the map
+    private final RunButton B_RUN_LEFT = new RunButton(203, 1575, 100, 100, 249, 1665, new Integer[]{24, 129, 111, 31, 159, null});
+    private final RunButton B_RUN_MIDDLE = new RunButton(493, 1535, 100, 100, 538, 1628, new Integer[]{19, 103, 85, null, 78, 104});
+    private final RunButton B_RUN_RIGHT = new RunButton(783, 1495, 100, 100, 828, 1588, new Integer[]{24, 133, 100, null, 130, null});
+
+    //Button you click to use a certain path on the map
+    private final Button B_MULTIPATH_TOP_L = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
+    private final Button B_MULTIPATH_TOP_R = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
+    private final Button B_MULTIPATH_BOT_L = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
+    private final Button B_MULTIPATH_BOT_R = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
+
+    //Button to click when u finish the fight
+    private final PixelButton B_KO = new PixelButton(100, 630, 900, 900, 263, 963, PixelButton.END_FIGHT_ORANGE);
+
+    //Buttons you click at the end of the level
+    private final PixelButton B_END = new PixelButton(350, 1765, 375, 85, 436, 1796, PixelButton.END_LVL_ORANGE);
+    private final Button B_FRIEND_REQ = new Button(115, 1205, 375, 90);
+
 
     Play(int lvl, IDevice device) {
         this.lvl = lvl;
-        this.device = device;
+        Button.setDevice(device);
+        ImageManager.setDevice(device);
+
+
     }
 
     boolean checkState() throws Exception {
 
         //Recupere l'image actuelle a l'ecran
-        rawImage = this.getScreen();
+        ImageManager.getScreen();
         //Partie Selection du niveau et ami
         if (state.equals("start")) {
             levelChooser();
-            state = "run";
             return checkState();
         }
+
         //Partie du parcours de la carte
         if (state.equals("run")) {
-            int[] px = checkPixel(842, 1585);
-            if (!(checkRGB(px, COLOR_RUN[0]) || checkRGB(px, COLOR_RUN[1]))) {
-                if (checkRGB(checkPixel(436, 1796), COLOR_RUN[3])) {
-                    tap(436, 1796);
-                    wait(1500);
-                    tap(155,1234);
-                    System.out.println("End Lvl");
-                    wait(10000);
-                    state = "start";
-                } else {
-                    state = "fight";
-                    System.out.println("Fighting...");
-                }
-            } else {
-                if (checkRGB(px, COLOR_RUN[0])) {
-                    System.out.println("Orange recognized...");
-                    tap(842, 1585);
-                    wait(2000);
-                    waitTimes = 0;
-                }
-                if (checkRGB(px, COLOR_RUN[1]) || checkRGB(px, COLOR_RUN[2])) {
-                    System.out.println("Grey recognized...");
-                    if (waitTimes > 2) {
-                        System.out.println("MultiPath recognized...");
-                        tap(multiPath[0][0], multiPath[0][1]);
-                        tap(multiPath[1][0], multiPath[1][1]);
-                        tap(multiPath[2][0], multiPath[2][1]);
-                        tap(multiPath[3][0], multiPath[3][1]);
-                        wait(2000);
-                        waitTimes = 0;
-                    } else {
-                        wait(2000);
-                        waitTimes++;
-                    }
-                }
-            }
+            run();
             return checkState();
         }
+
         //Partie combat
         if (state.equals("fight")) {
-            if(checkRGB(checkPixel(263,963), COLOR_RUN[5])){
-                tap(535, 935);
-                wait(1500);
-                tap(535, 935);
-                wait(1500);
-                tap(535, 935);
-                wait(3000);
-                System.out.println("End Fighting ...");
-
-            }
-            else if (!checkRGB(checkPixel(980, 233), COLOR_RUN[4])) {
-                state = "run";
-                wait(5000);
-                return checkState();
-            }
-
-            else{tap(535, 935);
-            wait(3000);
-            tap(535, 935);
-            wait(3000);
-            tap(535, 935);}
-            wait(3000);
-
-            state = "run";
+            fight();
             return checkState();
         }
         return true;
     }
 
+    private void fight() throws InterruptedException {
+
+        if (B_KO.check()) {
+
+            B_KO.tapIn();
+            wait(1500);
+            B_KO.tapIn();
+            wait(1500);
+            B_KO.tapIn();
+            wait(3000);
+
+            System.out.println("End Fighting ...");
+            state = "run";
+
+            /*} else if (!figthingState.check()) {
+                state = "run";
+                wait(5000);
+                return checkState();*/
+        } else {
+            Map map = new Map();
+            map.updateMap();
+            map.getMaxKi().tapIn();
+            wait(3000);
+            map.updateMap();
+            map.getMaxKi().tapIn();
+            wait(3000);
+            map.updateMap();
+            map.getMaxKi().tapIn();
+        }
+        wait(3000);
+
+
+    }
+
+
+    private void run() throws InterruptedException {
+        if (B_RUN_RIGHT.check()) {
+            String color = B_RUN_RIGHT.getColor();
+            if (color.equals("orange")) {
+                System.out.println("Orange recognized...");
+                chooseRunButton();
+            } else {
+                System.out.println("Grey recognized...");
+                if (waitTimes > 2) {
+                    System.out.println("MultiPath recognized...");
+                    B_MULTIPATH_TOP_R.tapIn();
+                    B_MULTIPATH_TOP_L.tapIn();
+                    B_MULTIPATH_BOT_R.tapIn();
+                    B_MULTIPATH_BOT_L.tapIn();
+                    wait(2000);
+                    waitTimes = 0;
+                } else {
+                    wait(2000);
+                    waitTimes++;
+                }
+            }
+        } else {
+            if (B_END.check()) {
+                B_END.tapIn();
+                wait(1500);
+                B_FRIEND_REQ.tapIn();
+                System.out.println("End Lvl");
+                wait(10000);
+                state = "start";
+            } else {
+                state = "fight";
+                System.out.println("Fighting...");
+            }
+        }
+    }
+
+    private void chooseRunButton() throws InterruptedException {
+
+        if (B_RUN_LEFT.updateStatus())
+            B_RUN_LEFT.update();
+
+        if (B_RUN_MIDDLE.updateStatus())
+            B_RUN_MIDDLE.update();
+
+        if (B_RUN_RIGHT.updateStatus())
+            B_RUN_RIGHT.update();
+
+        System.out.println("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
+
+        if (B_RUN_LEFT.getValue() >= B_RUN_MIDDLE.getValue() &&
+                B_RUN_LEFT.getValue() > B_RUN_RIGHT.getValue()) {
+            B_RUN_LEFT.tapIn();
+            B_RUN_LEFT.needUpdate();
+        } else if (B_RUN_MIDDLE.getValue() >= B_RUN_LEFT.getValue() &&
+                B_RUN_MIDDLE.getValue() > B_RUN_RIGHT.getValue()) {
+            B_RUN_MIDDLE.tapIn();
+            B_RUN_MIDDLE.needUpdate();
+        } else {
+            B_RUN_RIGHT.tapIn();
+            B_RUN_RIGHT.needUpdate();
+        }
+
+        wait(2000);
+        waitTimes = 0;
+    }
 
     private void wait(int time) throws InterruptedException {
         sleep(time);
     }
 
-    private RawImage getScreen() {
-        RawImage screen = null;
-        try {
-            screen = device.getScreenshot();
-        } catch (AdbCommandRejectedException e) {
-            e.getMessage();
-        } catch (TimeoutException e) {
-            e.getMessage();
-        } catch (IOException e) {
-            e.getMessage();
-        }
-        return screen;
-    }
-
-    private int[] checkPixel(int x, int y) {
-
-        int w = rawImage.width;
-        int value = rawImage.getARGB(y * w * 4 + x * 4 + 4);
-
-        return new int[]{new Color(value).getRed(),
-                new Color(value).getGreen(),
-                new Color(value).getBlue()};
-    }
-
-
-    private void tap(int x, int y) {
-        try {
-            device.executeShellCommand("input touchscreen tap " + x + " " + y, new IShellOutputReceiver() {
-                public void addOutput(byte[] data, int offset, int length) {
-                }
-
-                public void flush() {
-                }
-
-                public boolean isCancelled() {
-                    return false;
-                }
-            });
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
     private void levelChooser() throws InterruptedException {
         System.out.println("clic niveau");
-        tap(POS_LVL[0][0], POS_LVL[0][1]);
+        B_LEVEL.tapIn();
         sleep(4000);
         System.out.println("clic difficulté");
-        tap(POS_LVL[lvl][0], POS_LVL[lvl][1]);
+        Button b;
+        switch (lvl) {
+            // Only 1 level
+            case 0:
+                b = B_DIFF_MIDDLE_3;
+                break;
+            // 2 Levels
+            case 1:
+                b = B_DIFF_LEFT_2;
+                break;
+            case 2:
+                b = B_DIFF_RIGHT_2;
+                break;
+            // 3 Levels
+            case 3:
+                b = B_DIFF_LEFT_3;
+                break;
+            case 4:
+                b = B_DIFF_MIDDLE_3;
+                break;
+            default:
+                b = B_DIFF_RIGHT_3;
+                break;
+        }
+        b.tapIn();
         sleep(4000);
         System.out.println("clic ami"); //517 713
-        tap(517, 713);
+        B_FRIEND.tapIn();
         sleep(4000);
         System.out.println("clic demarrer");//907 1582
-        tap(907, 1582);
+        B_START.tapIn();
         sleep(8000);
+        state = "run";
     }
 
-
-    private boolean checkRGB(int[] sampleColor, int[] expectedColor) {
-        double somme = 0;
-        //System.out.println(Arrays.toString(sampleColor));
-        //System.out.println(Arrays.toString(expectedColor));
-
-        for (int i = 0; i < 3; i++) {
-            somme += Math.abs(sampleColor[i] - expectedColor[i]);
-        }
-        //System.out.println(somme);
-        somme = somme / 3.0 / 255.0;
-        //System.out.println(somme);
-        return somme < .1;
-    }
 }

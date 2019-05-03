@@ -1,9 +1,9 @@
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
+import org.jetbrains.annotations.Nullable;
 
 
-
-public class Demo {
+class Demo {
 
     private void init() {
         AndroidDebugBridge.init(false);
@@ -14,6 +14,7 @@ public class Demo {
     }
 
 
+    @Nullable
     private IDevice usingWaitLoop() {
         AndroidDebugBridge adb = AndroidDebugBridge.createBridge();
 
@@ -58,24 +59,48 @@ public class Demo {
 
         demo.init();
 
-        // I think this is the way to go for non-interactive or short-running applications
-        //System.out.println("Demo using wait loop to ensure connection to ADB server and then enumerate devices synchronously");
         IDevice device = demo.usingWaitLoop();
 
-
-        Play play = new Play(1, device);
-        boolean stopEvent;
-
-
-
-        do {
-            stopEvent = play.checkState();
-
-
-        } while (!stopEvent);
+        // testMap(device);
+        play(device);
+        //screenshot(device);
 
         demo.finish();
     }
+
+    static void testMap(IDevice device){
+        ImageManager.setDevice(device);
+        Button.setDevice(device);
+        ImageManager.getScreen();
+        //ImageManager.loadTestImage();
+        Map map = new Map();
+        map.getRow(5);
+        map.getRow(4);
+        map.getRow(3);
+        map.getRow(2);
+        map.getRow(1);
+        KiSphere max = map.getMaxKi();
+        System.out.println(max.getType());
+       max.tapIn();
+    }
+
+    static void screenshot(IDevice device){
+        ImageManager.setDevice(device);
+        ImageManager.getScreen();
+        ImageManager.saveScreenshot();
+    }
+
+
+    private static void play(IDevice device)throws Exception {
+        Play p = new Play(2, device);
+        p.checkState();
+
+
+    }
+
+
+
+
 
 }
 
