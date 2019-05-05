@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
+import java.sql.Array;
+import java.util.Arrays;
 
 class ImageManager {
     private static IDevice device;
@@ -28,7 +30,7 @@ class ImageManager {
         rawImage = screen;
     }
 
-    static int[] checkPixel(int x, int y) {
+    static int[] getPixel(int x, int y) {
 
         int w = rawImage.width;
         int value = rawImage.getARGB(y * w * 4 + x * 4 + 4);
@@ -60,15 +62,15 @@ class ImageManager {
     }
     
     static boolean checkRGB(int[] sampleColor, int[] expectedColor) {
-        double somme = 0;
+        double colorDist;
 
-        for (int i = 0; i < 3; i++) {
-            somme += Math.abs(sampleColor[i] - expectedColor[i]);
-        }
+        //System.out.println(Arrays.toString(sampleColor));
+        //System.out.println(Arrays.toString(expectedColor));
 
-        somme = somme / 3.0 / 255.0;
+        colorDist = (2*Math.pow((sampleColor[0] - expectedColor[0]),2)) + (4*Math.pow((sampleColor[1] - expectedColor[1]),2)) + (3*Math.pow((sampleColor[2] - expectedColor[2]),2));
+        //System.out.println(colorDist+"\n");
 
-        return somme < .1;
+        return colorDist < 2000;
     }
 
     static void saveScreenshot(){

@@ -61,9 +61,7 @@ class Demo {
 
         IDevice device = demo.usingWaitLoop();
 
-        // testMap(device);
         play(device);
-        //screenshot(device);
 
         demo.finish();
     }

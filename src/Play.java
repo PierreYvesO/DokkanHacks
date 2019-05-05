@@ -4,7 +4,7 @@ import static java.lang.Thread.*;
 
 class Play {
     private int lvl;
-    private String state = "start";
+    private String state = "run";
     private int waitTimes = 0;
 
     //Button you click to choose the level you play
@@ -27,7 +27,10 @@ class Play {
 
 
     //Button to check the fighting state
-    //private final PixelButton figthingState = new PixelButton(0, 0, 0, 0, 980, 233, PixelButton.FIGHT_ORANGE);
+    private final PixelButton figthingState_1 = new PixelButton(0, 0, 0, 0, 980, 233, PixelButton.FIGHT_ORANGE);
+    private final PixelButton figthingState_2 = new PixelButton(0, 0, 0, 0, 1016, 336, PixelButton.FIGHT_GREEN);
+    private final PixelButton figthingState_3 = new PixelButton(0, 0, 0, 0, 955, 335, PixelButton.FIGHT_BLUE);
+    private final PixelButton figthingState_4 = new PixelButton(0, 0, 0, 0, 935, 273, PixelButton.FIGHT_RED);
 
     //Button you click to go through the map
     private final RunButton B_RUN_LEFT = new RunButton(203, 1575, 100, 100, 249, 1665, new Integer[]{24, 129, 111, 31, 159, null});
@@ -35,10 +38,10 @@ class Play {
     private final RunButton B_RUN_RIGHT = new RunButton(783, 1495, 100, 100, 828, 1588, new Integer[]{24, 133, 100, null, 130, null});
 
     //Button you click to use a certain path on the map
-    private final Button B_MULTIPATH_TOP_L = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
-    private final Button B_MULTIPATH_TOP_R = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
-    private final Button B_MULTIPATH_BOT_L = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
-    private final Button B_MULTIPATH_BOT_R = new RunButton(203, 1575, 100, 100, 0, 0, new Integer[]{24, 129, 111, 31, 159, 0});
+    private final PixelButton B_MULTIPATH_TOP_L = new PixelButton(203, 1575, 100, 100, 0, 0, PixelButton.MULTIPATH_BLUE);
+    private final PixelButton B_MULTIPATH_TOP_R = new PixelButton(203, 1575, 100, 100, 0, 0, PixelButton.MULTIPATH_BLUE);
+    private final PixelButton B_MULTIPATH_BOT_L = new PixelButton(203, 1575, 100, 100, 0, 0, PixelButton.MULTIPATH_BLUE);
+    private final PixelButton B_MULTIPATH_BOT_R = new PixelButton(203, 1575, 100, 100, 0, 0, PixelButton.MULTIPATH_BLUE);
 
     //Button to click when u finish the fight
     private final PixelButton B_KO = new PixelButton(100, 630, 900, 900, 263, 963, PixelButton.END_FIGHT_ORANGE);
@@ -83,22 +86,19 @@ class Play {
     private void fight() throws InterruptedException {
 
         if (B_KO.check()) {
-
+            System.out.println("KO detected...");
             B_KO.tapIn();
             wait(1500);
             B_KO.tapIn();
             wait(1500);
             B_KO.tapIn();
             wait(3000);
-
-            System.out.println("End Fighting ...");
             state = "run";
+            System.out.println("End Fighting ...");
 
-            /*} else if (!figthingState.check()) {
-                state = "run";
-                wait(5000);
-                return checkState();*/
-        } else {
+        } else if (figthingState_1.check() && figthingState_2.check() &&
+                figthingState_3.check() && figthingState_4.check()){
+
             Map map = new Map();
             map.updateMap();
             map.getMaxKi().tapIn();
@@ -108,7 +108,15 @@ class Play {
             wait(3000);
             map.updateMap();
             map.getMaxKi().tapIn();
-        }
+        }else if (B_END.check()) {
+            B_END.tapIn();
+            wait(1500);
+            B_FRIEND_REQ.tapIn();
+            System.out.println("End Lvl");
+            wait(10000);
+            state = "start";
+        }else if(B_RUN_LEFT.check())
+            state = "run";
         wait(3000);
 
 
@@ -118,36 +126,29 @@ class Play {
     private void run() throws InterruptedException {
         if (B_RUN_RIGHT.check()) {
             String color = B_RUN_RIGHT.getColor();
+
             if (color.equals("orange")) {
                 System.out.println("Orange recognized...");
                 chooseRunButton();
             } else {
                 System.out.println("Grey recognized...");
-                if (waitTimes > 2) {
+                if (waitTimes > 10) {
                     System.out.println("MultiPath recognized...");
                     B_MULTIPATH_TOP_R.tapIn();
                     B_MULTIPATH_TOP_L.tapIn();
                     B_MULTIPATH_BOT_R.tapIn();
                     B_MULTIPATH_BOT_L.tapIn();
-                    wait(2000);
+
                     waitTimes = 0;
                 } else {
-                    wait(2000);
+
                     waitTimes++;
                 }
             }
         } else {
-            if (B_END.check()) {
-                B_END.tapIn();
-                wait(1500);
-                B_FRIEND_REQ.tapIn();
-                System.out.println("End Lvl");
-                wait(10000);
-                state = "start";
-            } else {
                 state = "fight";
                 System.out.println("Fighting...");
-            }
+
         }
     }
 
@@ -162,7 +163,7 @@ class Play {
         if (B_RUN_RIGHT.updateStatus())
             B_RUN_RIGHT.update();
 
-        System.out.println("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
+        //System.out.println("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
 
         if (B_RUN_LEFT.getValue() >= B_RUN_MIDDLE.getValue() &&
                 B_RUN_LEFT.getValue() > B_RUN_RIGHT.getValue()) {

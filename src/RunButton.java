@@ -11,7 +11,7 @@ class RunButton extends PixelButton {
     private static final int[] RUN_BUTTON_ORANGE = {251, 111, 0};
     private static final int[] RUN_BUTTON_GREY = {99, 97, 99};
     private static final int[] RUN_BUTTON_TRANSITION = {255, 255, 173};
-    static final int[] MULTIPATH_BLUE = {0, 0, 0};
+
 
     RunButton(int x, int y, int w, int h, int xpx, int ypx, Integer[] BLACK_VALUES) {
         super(x, y, w, h, xpx, ypx, null);
@@ -74,14 +74,19 @@ class RunButton extends PixelButton {
     }
 
 
+    @Override
     boolean check() {
         boolean orange, grey = false;
-        if ((orange = ImageManager.checkRGB(ImageManager.checkPixel(x, y), RUN_BUTTON_ORANGE) ||
-                (grey = ImageManager.checkRGB(ImageManager.checkPixel(x, y), RUN_BUTTON_GREY)) ||
-                (ImageManager.checkRGB(ImageManager.checkPixel(x, y), RUN_BUTTON_TRANSITION)))) {
+        if ((orange = ImageManager.checkRGB(ImageManager.getPixel(xPixel, yPixel), RUN_BUTTON_ORANGE)) ||
+                (grey = ImageManager.checkRGB(ImageManager.getPixel(xPixel, yPixel), RUN_BUTTON_GREY)) ||
+                (ImageManager.checkRGB(ImageManager.getPixel(xPixel, yPixel), RUN_BUTTON_TRANSITION))) {
+
+            //System.out.println(orange);
+            //System.out.println(grey);
+
             if (orange)
                 color = RUN_BUTTON_ORANGE;
-            if (grey)
+            else if (grey)
                 color = RUN_BUTTON_GREY;
             else
                 color = RUN_BUTTON_TRANSITION;

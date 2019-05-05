@@ -57,7 +57,7 @@ class Map {
                 maxki = ki;
             }
 
-            System.out.println("PathCOunt : " + (pathcount));
+            //System.out.println("PathCOunt : " + (pathcount));
         }
         return maxki;
 
@@ -86,20 +86,20 @@ class Map {
     void getRow(int r) {
         updateMap();
         int i = 0;
-        StringBuilder ligne = new StringBuilder();
+        //StringBuilder ligne = new StringBuilder();
         for (KiSphere ki : map.get(r)) {
-            ligne.append(" ").append(ki.getType());
+            //ligne.append(" ").append(ki.getType());
             //System.out.println(Arrays.asList(ki.getAvgRGB()).toString());
-            ImageManager.saveImage(ki.getBuffI(), "save\\" + r + " " + i);
+            //ImageManager.saveImage(ki.getBuffI(), "save\\" + r + " " + i);
             i++;
         }
-        System.out.println(ligne + "\n");
+       // System.out.println(ligne + "\n");
     }
 
     private int getSides(KiSphere ki, String type) {
         //System.out.println("getSides");
         int row = getRow(ki);
-        int col = getCollumn(ki);
+        int col = getColumn(ki);
         int side = 0;
         int maxcol;
         int mincol = 0;
@@ -113,7 +113,7 @@ class Map {
         while (sidecol <= maxcol) {
             //System.out.println("Side testRight  :" +sidecol + " type : " + getKiSphere(row, sidecol).getType() );
             if (getKiSphere(row, sidecol).getType().equals(type) && !type.equals("rbw")) {
-                System.out.println("Side : " + row + "   " + (sidecol + 1));
+                //System.out.println("Side : " + row + "   " + (sidecol + 1));
                 side++;
                 sidecol++;
             } else {
@@ -126,7 +126,7 @@ class Map {
         while (sidecol >= mincol) {
             //System.out.println("Side testLeft  :" + getKiSphere(row, sidecol).getType());
             if (getKiSphere(row, sidecol).getType().equals(type) && !type.equals("rbw")) {
-                System.out.println("Side : " + row + "   " + (sidecol + 1));
+                //System.out.println("Side : " + row + "   " + (sidecol + 1));
                 side++;
                 sidecol--;
 
@@ -173,7 +173,7 @@ class Map {
         return 0;
     }
 
-    private int getCollumn(KiSphere ki) {
+    private int getColumn(KiSphere ki) {
 
         return map.get(getRow(ki)).indexOf(ki);
     }
@@ -181,10 +181,10 @@ class Map {
     private KiSphere getNext(KiSphere ki, String type) {
         //System.out.println("getNext");
         int row = getRow(ki);
-        int col = getCollumn(ki);
+        int col = getColumn(ki);
         KiSphere nextKi1;
         KiSphere nextKi2;
-        System.out.println(row + " " + (col + 1));
+        //System.out.println(row + " " + (col + 1));
         if (row == 5)
             return null;
         if (row % 2 != 0) {
