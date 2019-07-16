@@ -6,10 +6,8 @@ import com.android.ddmlib.TimeoutException;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.File;
-import java.sql.Array;
-import java.util.Arrays;
+import java.io.IOException;
 
 class ImageManager {
     private static IDevice device;
@@ -60,7 +58,8 @@ class ImageManager {
 
         return image;}
     }
-    
+
+
     static boolean checkRGB(int[] sampleColor, int[] expectedColor) {
         double colorDist;
 
@@ -101,7 +100,7 @@ class ImageManager {
 
 
         try {
-            buffImg = ImageIO.read(new File("C:\\Users\\AU00051k\\IdeaProjects\\test2\\src\\testScreenshot.jpg"));
+            buffImg = ImageIO.read(new File("ki2.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

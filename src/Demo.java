@@ -55,31 +55,27 @@ class Demo {
     }
 
     public static void main(String[] args) throws Exception {
-        Demo demo = new Demo();
 
-        demo.init();
+        //testMap(null);
+        //play();
+        display();
 
-        IDevice device = demo.usingWaitLoop();
-
-        play(device);
-
-        demo.finish();
     }
 
     static void testMap(IDevice device){
-        ImageManager.setDevice(device);
-        Button.setDevice(device);
-        ImageManager.getScreen();
-        //ImageManager.loadTestImage();
-        Map map = new Map();
-        map.getRow(5);
-        map.getRow(4);
-        map.getRow(3);
-        map.getRow(2);
-        map.getRow(1);
-        KiSphere max = map.getMaxKi();
-        System.out.println(max.getType());
-       max.tapIn();
+        //ImageManager.setDevice(device);
+        //Button.setDevice(device);
+        //ImageManager.getScreen();
+        ImageManager.loadTestImage();
+        Map.updateMap();
+        //Map.displayMap();
+        Paths paths = new Paths();
+        paths.calcPaths();
+        //paths.getPaths();
+        //paths.getMax().tapIn();
+        System.out.println(paths.getMax().getType());
+        ImageManager.saveImage(paths.getMax().getBuffI(), "kiMax");
+        //max.tapIn();
     }
 
     static void screenshot(IDevice device){
@@ -89,10 +85,23 @@ class Demo {
     }
 
 
-    private static void play(IDevice device)throws Exception {
-        Play p = new Play(2, device);
+    private static void play() throws Exception {
+        Demo demo = new Demo();
+
+        demo.init();
+
+        IDevice device = demo.usingWaitLoop();
+        Play p = new Play(0, 1, 1, device);
         p.checkState();
 
+        demo.finish();
+
+
+    }
+
+    private static void display() {
+
+        new Form();
 
     }
 

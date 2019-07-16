@@ -8,7 +8,9 @@ class PixelButton extends Button {
     static final int[] FIGHT_RED = {206,32,32};
     static final int[] END_LVL_ORANGE = {239, 178, 107};
     static final int[] END_FIGHT_ORANGE = {255, 158, 0};
-    static final int[] MULTIPATH_BLUE = {0, 0, 0};
+    static final int[] MULTIPATH_BLUE = {14, 129, 226};
+    static final int[] START_LVL_GREY = {66, 66, 74};
+    static final int[] START_LVL_CLEARED = {8, 219, 255};
 
 
     int xPixel;

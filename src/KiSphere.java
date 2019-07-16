@@ -1,12 +1,14 @@
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 class KiSphere extends Button {
 
     private BufferedImage img;
 
     private boolean updated = false;
-    private String type;
+    private KiType type;
 
     private static final Integer[] AGL_KI = new Integer[]{39, 105, 226};
     private static final Integer[] STR_KI = new Integer[]{254, 148, 170};
@@ -20,7 +22,7 @@ class KiSphere extends Button {
         super(x, y, w, h);
     }
 
-    private String findType() {
+    private KiType findType() {
 
         Integer[] average = getAvgRGB();
 
@@ -28,13 +30,18 @@ class KiSphere extends Button {
 
 
             switch (l.indexOf(Collections.min(l))){
-                case 0 : return("phy");
-                case 1 : return("int");
-                case 2 : return("teq");
-                case 3 : return("agl");
-                case 4 : return("str");
-                case 5 : return("rbw");
-                default: return("rwb");
+                case 0:
+                    return (KiType.PHY);
+                case 1:
+                    return (KiType.INT);
+                case 2:
+                    return (KiType.TEQ);
+                case 3:
+                    return (KiType.AGL);
+                case 4:
+                    return (KiType.STR);
+                default:
+                    return (KiType.RBW);
             }
         }
 
@@ -89,13 +96,13 @@ class KiSphere extends Button {
         img = ImageManager.getBufferedImage().getSubimage(x, y, w, h);
     }
 
-    private void setType(String type) {
-        this.type = type;
+    KiType getType() {
+        return type;
 
     }
 
-    String getType() {
-        return type;
+    private void setType(KiType type) {
+        this.type = type;
 
     }
 
