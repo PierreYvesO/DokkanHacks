@@ -2,27 +2,27 @@ import org.jetbrains.annotations.NotNull;
 
 public class Path implements Comparable {
 
-    KiSphere start;
-    KiType type;
-    int value = 0;
-    int posinit;
+    private KiSphere start;
+    private KiType type;
+    private int value;
 
 
-    public Path(KiSphere start, KiType type) {
+    Path(KiSphere start, KiType type) {
 
         this.start = start;
         this.type = type;
 
-        posinit = Map.getMap().get(1).indexOf(start);
+        int posinit = Map.getMap().get(1).indexOf(start);
         value = getUp(1, posinit);
-        if (type == KiType.RBW && value == 1 || start.getType() == KiType.RBW && value == 1)
+        if (type == KiType.RBW && value == 1 || start.getType() == KiType.RBW && value == 1) {
             value = 0;
+        }
         //System.out.println("value ="+value);
 
     }
 
 
-    public int getValue() {
+    int getValue() {
 
         return value;
     }
@@ -73,20 +73,15 @@ public class Path implements Comparable {
             } else {
                 return max(getUp(line + 1, pos - 1), getUp(line + 1, pos)) + 1 + sides;
             }
-        } else
+        } else {
             return 0;
+        }
 
     }
 
     @Override
     public int compareTo(@NotNull Object o) {
-        if (this.getValue() > ((Path) o).getValue()) {
-            return -1;
-        }
-        if (this.getValue() == ((Path) o).getValue()) {
-            return 0;
-        }
-        return 1;
+        return Integer.compare(((Path) o).getValue(), this.getValue());
     }
 
     /*@Override
@@ -97,7 +92,7 @@ public class Path implements Comparable {
             return false;
     }*/
 
-    public KiSphere getKisphere() {
+    KiSphere getKisphere() {
         return start;
     }
 

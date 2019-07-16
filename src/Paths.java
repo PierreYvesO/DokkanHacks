@@ -4,9 +4,9 @@ import java.util.TreeSet;
 
 public class Paths {
 
-    HashMap<KiType, TreeSet<Path>> paths;
+    private HashMap<KiType, TreeSet<Path>> paths;
 
-    public Paths() {
+    Paths() {
         paths = new HashMap<>();
         paths.put(KiType.PHY, new TreeSet<>());
         paths.put(KiType.INT, new TreeSet<>());
@@ -18,7 +18,7 @@ public class Paths {
 
     }
 
-    public void calcPaths() {
+    void calcPaths() {
         Map.updateMap();
         for (KiSphere ki : Map.getMap().get(1)) {
             for (KiType type : KiType.values()) {
@@ -30,19 +30,19 @@ public class Paths {
         }
     }
 
-    public KiSphere getMax() {
+    KiSphere getMax() {
         int max = 0;
         KiSphere maxKi = null;
 
         for (KiType type : KiType.values()) {
-            Path temp = null;
+            Path temp;
             try {
                 temp = paths.get(type).first();
                 if (temp.getValue() >= max) {
                     max = temp.getValue();
                     maxKi = temp.getKisphere();
                 }
-            } catch (NoSuchElementException e) {
+            } catch (NoSuchElementException ignored) {
 
             }
 

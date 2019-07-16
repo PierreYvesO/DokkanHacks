@@ -102,7 +102,7 @@ class Play {
             System.out.println("End Fighting ...");
 
         } else if (figthingState_1.check() && figthingState_2.check() &&
-                figthingState_3.check() && figthingState_4.check()){
+                figthingState_3.check() && figthingState_4.check()) {
 
 
             Paths paths = new Paths();
@@ -117,7 +117,7 @@ class Play {
             paths.calcPaths();
             paths.getMax().tapIn();
 
-        }else if (B_END.check()) {
+        } else if (B_END.check()) {
             B_END.tapIn();
             wait(1500);
             B_FRIEND_REQ.tapIn();
@@ -125,7 +125,7 @@ class Play {
             wait(10000);
             state = "start";
             actualround++;
-        }else if(B_RUN_LEFT.check())
+        } else if (B_RUN_LEFT.check())
             state = "run";
         wait(3000);
 
@@ -166,8 +166,8 @@ class Play {
                 }
             }
         } else {
-                state = "fight";
-                System.out.println("Fighting...");
+            state = "fight";
+            System.out.println("Fighting...");
 
         }
     }

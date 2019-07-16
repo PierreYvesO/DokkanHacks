@@ -6,7 +6,7 @@ import java.util.TreeSet;
 class Map {
 
 
-    public static final ArrayList<KiSphere> ROW1 = new ArrayList<>(Arrays.asList(
+    private static final ArrayList<KiSphere> ROW1 = new ArrayList<>(Arrays.asList(
             new KiSphere(60, 593, 130, 130),
             new KiSphere(260, 733, 130, 130),
             new KiSphere(448, 855, 130, 130),
@@ -38,7 +38,7 @@ class Map {
 
     private static java.util.Map<Integer, ArrayList<KiSphere>> map = java.util.Map.of(1, ROW1, 2, ROW2, 3, ROW3, 4, ROW4, 5, ROW5);
 
-    public static java.util.Map<Integer, ArrayList<KiSphere>> getMap() {
+    static java.util.Map<Integer, ArrayList<KiSphere>> getMap() {
         return map;
     }
 
@@ -57,9 +57,7 @@ class Map {
         }
 
 
-
     }
-
 
 
 }

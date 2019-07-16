@@ -14,7 +14,7 @@ class ImageManager {
     private static RawImage rawImage;
     private static BufferedImage buffImg = null;
 
-    static void setDevice(IDevice d){
+    static void setDevice(IDevice d) {
         device = d;
     }
 
@@ -37,26 +37,27 @@ class ImageManager {
                 new Color(value).getGreen(),
                 new Color(value).getBlue()};
     }
-    
+
     static BufferedImage getBufferedImage() {
-        if(buffImg != null){
+        if (buffImg != null) {
             return buffImg;
-        }else{
+        } else {
 
-        BufferedImage image = new BufferedImage(rawImage.width, rawImage.height,
-                BufferedImage.TYPE_INT_ARGB);
+            BufferedImage image = new BufferedImage(rawImage.width, rawImage.height,
+                    BufferedImage.TYPE_INT_ARGB);
 
-        int index = 0;
-        int IndexInc = rawImage.bpp >> 3;
-        for (int y = 0; y < rawImage.height; y++) {
-            for (int x = 0; x < rawImage.width; x++) {
-                int value = rawImage.getARGB(index);
-                index += IndexInc;
-                image.setRGB(x, y, value);
+            int index = 0;
+            int IndexInc = rawImage.bpp >> 3;
+            for (int y = 0; y < rawImage.height; y++) {
+                for (int x = 0; x < rawImage.width; x++) {
+                    int value = rawImage.getARGB(index);
+                    index += IndexInc;
+                    image.setRGB(x, y, value);
+                }
             }
-        }
 
-        return image;}
+            return image;
+        }
     }
 
 
@@ -66,16 +67,16 @@ class ImageManager {
         //System.out.println(Arrays.toString(sampleColor));
         //System.out.println(Arrays.toString(expectedColor));
 
-        colorDist = (2*Math.pow((sampleColor[0] - expectedColor[0]),2)) + (4*Math.pow((sampleColor[1] - expectedColor[1]),2)) + (3*Math.pow((sampleColor[2] - expectedColor[2]),2));
+        colorDist = (2 * Math.pow((sampleColor[0] - expectedColor[0]), 2)) + (4 * Math.pow((sampleColor[1] - expectedColor[1]), 2)) + (3 * Math.pow((sampleColor[2] - expectedColor[2]), 2));
         //System.out.println(colorDist+"\n");
 
         return colorDist < 2000;
     }
 
-    static void saveScreenshot(){
+    static void saveScreenshot() {
 
         try {
-          
+
             BufferedImage bi = getBufferedImage();
             File outputfile = new File("saved.png");
             ImageIO.write(bi, "png", outputfile);
@@ -84,11 +85,11 @@ class ImageManager {
         }
     }
 
-    static void saveImage(BufferedImage bis,String name){
+    static void saveImage(BufferedImage bis) {
 
         try {
 
-            File outputfile = new File(name+".png");
+            File outputfile = new File("kiMax" + ".png");
             ImageIO.write(bis, "png", outputfile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +97,8 @@ class ImageManager {
 
 
     }
-    static void loadTestImage(){
+
+    static void loadTestImage() {
 
 
         try {

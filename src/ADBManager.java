@@ -54,7 +54,7 @@ public class ADBManager {
         return null;
     }
 
-    public static IDevice getPhone() {
+    static IDevice getPhone() {
         init();
         return usingWaitLoop();
     }

@@ -5,8 +5,6 @@ import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -33,21 +31,6 @@ public class Form {
         $$$setupUI$$$();
     }
 
-    public Form() {
-        validerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int lvlCommand = Integer.parseInt(lvl.getSelection().getActionCommand());
-                int modeCommand = Integer.parseInt(mode.getSelection().getActionCommand());
-                int nb_tours = Integer.parseInt(nombreDeToursTextField.getText());
-                IDevice device = ADBManager.getPhone();
-                new Play(lvlCommand, modeCommand, nb_tours, device);
-            }
-        });
-
-
-    }
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("Form");
         frame.setContentPane(new Form().rootPanel);
@@ -65,6 +48,18 @@ public class Form {
 
             }
         });
+    }
+
+    Form() {
+        validerButton.addActionListener(e -> {
+            int lvlCommand = Integer.parseInt(lvl.getSelection().getActionCommand());
+            int modeCommand = Integer.parseInt(mode.getSelection().getActionCommand());
+            int nb_tours = Integer.parseInt(nombreDeToursTextField.getText());
+            IDevice device = ADBManager.getPhone();
+            new Play(lvlCommand, modeCommand, nb_tours, device);
+        });
+
+
     }
 
     /**
