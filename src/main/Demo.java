@@ -1,0 +1,77 @@
+package main;
+
+import com.android.ddmlib.IDevice;
+import manager.ADBManager;
+import manager.ImageManager;
+import model.Map;
+import model.Paths;
+
+import java.io.IOException;
+import java.util.ResourceBundle;
+
+
+class Demo {
+
+
+    public static void main(String[] args) throws IOException {
+
+        //testMap(null);
+        //play();
+        //display();
+        testBundle();
+
+    }
+
+    private static void testBundle() throws IOException {
+
+        String s = ResourceBundle.getBundle("strings").getString("test");
+        System.out.println(s);
+
+
+        //Properties p = new Properties();
+        //p.loadFromXML(new FileInputStream("ressources\\strings_fr_FR.xml"));
+        //p.list(System.out);
+    }
+
+    static void testMap(IDevice device) {
+        //ImageManager.setDevice(device);
+        //Button.setDevice(device);
+        //ImageManager.getScreen();
+        ImageManager.loadTestImage();
+        Map.updateMap();
+        //Map.displayMap();
+        Paths paths = new Paths();
+        paths.calcPaths();
+        //paths.getPaths();
+        //paths.getMax().tapIn();
+        System.out.println(paths.getMax().getType());
+        ImageManager.saveImage(paths.getMax().getBuffI());
+        //max.tapIn();
+    }
+
+    static void screenshot(IDevice device) {
+        ImageManager.setDevice(device);
+        ImageManager.getScreen();
+        ImageManager.saveScreenshot();
+    }
+
+
+    private static void play() {
+        ADBManager.setPhone();
+        //Play p = new Play(0, 1, 1);
+        //p.run();
+        ADBManager.finish();
+
+
+    }
+
+    private static void display() {
+
+        new Form();
+
+    }
+
+
+}
+
+
