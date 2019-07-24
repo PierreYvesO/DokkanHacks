@@ -49,7 +49,7 @@ public class Map {
 
     }
 
-    static void displayMap() {
+    public static void displayMap() {
         for (Integer a : new TreeSet<>(map.keySet()).descendingSet()) {
             for (KiSphere ki : map.get(a)) {
                 System.out.print(ki.getType().name() + " ");

@@ -21,14 +21,15 @@ public class RunButton extends PixelButton {
     public RunButton(int x, int y, int w, int h, int xpx, int ypx) {
         super(x, y, w, h, xpx, ypx, null);
         tesseract = new Tesseract();
-        tesseract.setLanguage("ressources/digits");
-        tesseract.setDatapath(".");
+        tesseract.setLanguage("digits");
+        tesseract.setDatapath(".\\ressources");
 
     }
 
 
     private void getImage() {
-        img = ImageManager.getBufferedImage().getSubimage(x, y, w, h);
+
+        img = ImageManager.getBufferedImage().getSubimage(x + 15, y + 10, 70, 70);
     }
 
     private void setValue() {
@@ -93,5 +94,11 @@ public class RunButton extends PixelButton {
             return true;
         } else
             return false;
+    }
+
+    @Override
+    public void tapIn() {
+        super.tapIn();
+        updated = false;
     }
 }

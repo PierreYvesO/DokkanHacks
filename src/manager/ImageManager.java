@@ -8,13 +8,18 @@ import com.android.ddmlib.TimeoutException;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.io.File;
 import java.io.IOException;
+
 
 public class ImageManager {
     private static IDevice device;
     private static RawImage rawImage;
     private static BufferedImage buffImg = null;
+    static int countImg = 0;
 
     public static void setDevice(IDevice d) {
         device = d;
@@ -91,7 +96,8 @@ public class ImageManager {
 
         try {
 
-            File outputfile = new File("kiMax" + ".png");
+            File outputfile = new File("image" + countImg + ".png");
+            countImg++;
             ImageIO.write(bis, "png", outputfile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,7 +119,35 @@ public class ImageManager {
     }
 
     public static BufferedImage processBI(BufferedImage img) {
+        for (int i = 0; i < img.getWidth(); i++) {
+            for (int j = 0; j < img.getHeight(); j++) {
 
-        return new BufferedImage(1, 1, 1);
+                if (isColor(img.getRGB(i, j), new Color(255, 154, 0)) && !(i < 15 && j < 7) && !(i < 5 && j < 30)) {
+                    img.setRGB(i, j, Color.BLACK.getRGB());
+                } else
+                    img.setRGB(i, j, Color.WHITE.getRGB());
+            }
+
+        }
+
+        Kernel kernel = new Kernel(3, 3, new float[]{1f / 9f, 1f / 9f, 1f / 9f,
+                1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f});
+        BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        img = op.filter(img, null);
+        saveImage(img);
+        return img;
+
+    }
+
+    private static boolean isColor(int rgb, Color color) {
+
+        Color color1 = new Color(rgb);
+
+        double distance = (color1.getRed() - color.getRed()) * (color1.getRed() - color.getRed()) +
+                (color1.getGreen() - color.getGreen()) * (color1.getGreen() - color.getGreen()) +
+                (color1.getBlue() - color.getBlue()) * (color1.getBlue() - color.getBlue());
+        return distance < 1000;
+
+
     }
 }

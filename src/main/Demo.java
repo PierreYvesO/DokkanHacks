@@ -3,8 +3,10 @@ package main;
 import com.android.ddmlib.IDevice;
 import manager.ADBManager;
 import manager.ImageManager;
+import model.Button;
 import model.Map;
 import model.Paths;
+import singleton.Play;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -15,10 +17,10 @@ class Demo {
 
     public static void main(String[] args) throws IOException {
 
-        //testMap(null);
+        testMap(null);
         //play();
         //display();
-        testBundle();
+        //testBundle();
 
     }
 
@@ -34,18 +36,20 @@ class Demo {
     }
 
     static void testMap(IDevice device) {
-        //ImageManager.setDevice(device);
-        //Button.setDevice(device);
-        //ImageManager.getScreen();
-        ImageManager.loadTestImage();
+        ADBManager.setPhone();
+        device = ADBManager.device;
+        ImageManager.setDevice(device);
+        Button.setDevice(device);
+        ImageManager.getScreen();
+        //ImageManager.loadTestImage();
         Map.updateMap();
-        //Map.displayMap();
+        Map.displayMap();
         Paths paths = new Paths();
         paths.calcPaths();
-        //paths.getPaths();
+        paths.getPaths();
         //paths.getMax().tapIn();
         System.out.println(paths.getMax().getType());
-        ImageManager.saveImage(paths.getMax().getBuffI());
+        //ImageManager.saveImage(paths.getMax().getBuffI());
         //max.tapIn();
     }
 
@@ -57,9 +61,13 @@ class Demo {
 
 
     private static void play() {
+
         ADBManager.setPhone();
-        //Play p = new Play(0, 1, 1);
-        //p.run();
+        Button.setDevice(ADBManager.device);
+        ImageManager.setDevice(ADBManager.device);
+        Play p = Play.getInstance(1, 0, 2);
+        Button.setMode(0);
+        p.run();
         ADBManager.finish();
 
 

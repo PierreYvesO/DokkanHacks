@@ -72,6 +72,7 @@ public class Play implements Runnable {
         return INSTANCE;
     }
 
+
     @Override
     public void run() {
         while (actualround <= round) {
@@ -200,19 +201,19 @@ public class Play implements Runnable {
         if (B_RUN_RIGHT.updateStatus())
             B_RUN_RIGHT.update();
 
-        //System.out.println("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
+        System.out.println("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
 
         if (B_RUN_LEFT.getValue() >= B_RUN_MIDDLE.getValue() &&
                 B_RUN_LEFT.getValue() > B_RUN_RIGHT.getValue()) {
             B_RUN_LEFT.tapIn();
-            B_RUN_LEFT.needUpdate();
+
         } else if (B_RUN_MIDDLE.getValue() >= B_RUN_LEFT.getValue() &&
                 B_RUN_MIDDLE.getValue() > B_RUN_RIGHT.getValue()) {
             B_RUN_MIDDLE.tapIn();
-            B_RUN_MIDDLE.needUpdate();
+
         } else {
             B_RUN_RIGHT.tapIn();
-            B_RUN_RIGHT.needUpdate();
+
         }
 
         wait(2000);
@@ -234,14 +235,14 @@ public class Play implements Runnable {
         if (B_RUN_LEFT.getValue() <= B_RUN_MIDDLE.getValue() &&
                 B_RUN_LEFT.getValue() < B_RUN_RIGHT.getValue()) {
             B_RUN_LEFT.tapIn();
-            B_RUN_LEFT.needUpdate();
+
         } else if (B_RUN_MIDDLE.getValue() <= B_RUN_LEFT.getValue() &&
                 B_RUN_MIDDLE.getValue() < B_RUN_RIGHT.getValue()) {
             B_RUN_MIDDLE.tapIn();
-            B_RUN_MIDDLE.needUpdate();
+
         } else {
             B_RUN_RIGHT.tapIn();
-            B_RUN_RIGHT.needUpdate();
+
         }
 
         wait(2000);

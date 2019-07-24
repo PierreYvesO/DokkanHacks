@@ -59,14 +59,14 @@ public class Path implements Comparable {
     }
 
     private int getUp(int line, int pos) {
-        //System.out.println(line+" "+pos);
+        System.out.println(line + " " + pos);
         if (pos < 0 || (line % 2 == 0 && pos > 3) || (line % 2 != 0 && pos > 4))
             return 0;
 
         if (Map.getMap().get(line).get(pos).getType() == type || Map.getMap().get(line).get(pos).getType() == KiType.RBW) {
-            //System.out.println(line+"-"+pos);
+            System.out.println(line + "-" + pos);
             int sides = getSides(line, pos);
-            //System.out.println("sides ="+sides);
+            System.out.println("sides =" + sides);
             if (line == 5) {
                 return getSides(line, pos) + 1;
             }
@@ -83,7 +83,8 @@ public class Path implements Comparable {
 
     @Override
     public int compareTo(@NotNull Object o) {
-        return Integer.compare(((Path) o).getValue(), this.getValue());
+
+        return ((Path) o).getValue() > this.getValue() ? 1 : -1;
     }
 
     /*@Override

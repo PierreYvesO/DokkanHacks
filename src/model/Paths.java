@@ -63,7 +63,7 @@ public class Paths {
     public void getPaths() {
 
         for (KiType t : paths.keySet()) {
-            System.out.println(t);
+            System.out.print("\n" + t + "\n--");
             for (Path p : paths.get(t)) {
                 System.out.print(p.getKisphere().getType().name() + " " + p.getValue() + " ");
             }
