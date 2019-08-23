@@ -5,6 +5,7 @@ import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class RunButton extends PixelButton {
 
@@ -18,23 +19,21 @@ public class RunButton extends PixelButton {
     private static final int[] RUN_BUTTON_TRANSITION = {255, 255, 173};
 
 
-    public RunButton(int x, int y, int w, int h, int xpx, int ypx) {
+    public RunButton(int[] x, int[] y, int[] w, int[] h, int[] xpx, int[] ypx) {
         super(x, y, w, h, xpx, ypx, null);
         tesseract = new Tesseract();
         tesseract.setLanguage("digits");
-        tesseract.setDatapath(".\\ressources");
-
+        File tessdata = new File("DH\\src\\ressources");
+        tesseract.setDatapath(tessdata.getAbsolutePath());
     }
 
 
     private void getImage() {
-
         img = ImageManager.getBufferedImage().getSubimage(x + 15, y + 10, 70, 70);
     }
 
     private void setValue() {
         String text = "";
-
         try {
             text = tesseract.doOCR(ImageManager.processBI(img));
         } catch (TesseractException e) {
@@ -42,7 +41,6 @@ public class RunButton extends PixelButton {
         }
         text = text.replace("7", "1");
         text = text.replaceAll("[\\r\\n]", "");
-
         value = Integer.parseInt(text);
     }
 
@@ -61,12 +59,10 @@ public class RunButton extends PixelButton {
     }
 
     public boolean updateStatus() {
-
         return !updated;
     }
 
     public String getColor() {
-
         if (color == RUN_BUTTON_ORANGE) {
             return "orange";
         } else {
@@ -81,10 +77,6 @@ public class RunButton extends PixelButton {
         if ((orange = ImageManager.checkRGB(ImageManager.getPixel(xPixel, yPixel), RUN_BUTTON_ORANGE)) ||
                 (grey = ImageManager.checkRGB(ImageManager.getPixel(xPixel, yPixel), RUN_BUTTON_GREY)) ||
                 (ImageManager.checkRGB(ImageManager.getPixel(xPixel, yPixel), RUN_BUTTON_TRANSITION))) {
-
-            //System.out.println(orange);
-            //System.out.println(grey);
-
             if (orange)
                 color = RUN_BUTTON_ORANGE;
             else if (grey)

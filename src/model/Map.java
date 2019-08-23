@@ -1,24 +1,28 @@
 package model;
 
+import manager.ImageManager;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
+
+import static manager.ScreenPixelManager.*;
 
 
 public class Map {
 
 
     private static final ArrayList<KiSphere> ROW1 = new ArrayList<>(Arrays.asList(
-            new KiSphere(60, 593, 130, 130),
-            new KiSphere(260, 733, 130, 130),
-            new KiSphere(448, 855, 130, 130),
-            new KiSphere(672, 893, 130, 130),
-            new KiSphere(893, 919, 130, 130)));
+            new KiSphere(PX_KI_R1_P1_X, PX_KI_R1_P1_Y, PX_KI_R1_W, PX_KI_R1_H),
+            new KiSphere(PX_KI_R1_P2_X, PX_KI_R1_P2_Y, PX_KI_R1_W, PX_KI_R1_H),
+            new KiSphere(PX_KI_R1_P3_X, PX_KI_R1_P3_Y, PX_KI_R1_W, PX_KI_R1_H),
+            new KiSphere(PX_KI_R1_P4_X, PX_KI_R1_P4_Y, PX_KI_R1_W, PX_KI_R1_H),
+            new KiSphere(PX_KI_R1_P5_X, PX_KI_R1_P5_Y, PX_KI_R1_W, PX_KI_R1_H)));
     private static final ArrayList<KiSphere> ROW2 = new ArrayList<>(Arrays.asList(
-            new KiSphere(269, 582, 90, 90),
-            new KiSphere(440, 684, 90, 90),
-            new KiSphere(614, 738, 90, 90),
-            new KiSphere(806, 786, 90, 90)));
+            new KiSphere(PX_KI_R2_P1_X, PX_KI_R2_P1_Y, PX_KI_R2_W, PX_KI_R2_H),
+            new KiSphere(PX_KI_R2_P2_X, PX_KI_R2_P2_Y, PX_KI_R2_W, PX_KI_R2_H),
+            new KiSphere(PX_KI_R2_P3_X, PX_KI_R2_P3_Y, PX_KI_R2_W, PX_KI_R2_H),
+            new KiSphere(PX_KI_R2_P4_X, PX_KI_R2_P4_Y, PX_KI_R2_W, PX_KI_R2_H)));
     private static final ArrayList<KiSphere> ROW3 = new ArrayList<>(Arrays.asList(
             new KiSphere(336, 487, 60, 60),
             new KiSphere(420, 571, 60, 60),
@@ -45,18 +49,22 @@ public class Map {
     }
 
     public static void updateMap() {
+        ImageManager.getScreen();
         map.values().forEach(lki -> lki.forEach(KiSphere::update));
 
     }
 
-    public static void displayMap() {
+    public static String displayMap() {
+        StringBuilder sb = new StringBuilder();
         for (Integer a : new TreeSet<>(map.keySet()).descendingSet()) {
             for (KiSphere ki : map.get(a)) {
-                System.out.print(ki.getType().name() + " ");
+                //ImageManager.saveImage(ki.getBuffI());
+                sb.append(ki.getType().name() + " ");
             }
-            System.out.println();
+            sb.append("\n");
 
         }
+        return sb.toString();
 
 
     }

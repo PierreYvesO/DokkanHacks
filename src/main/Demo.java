@@ -3,6 +3,7 @@ package main;
 import com.android.ddmlib.IDevice;
 import manager.ADBManager;
 import manager.ImageManager;
+import manager.LogsManager;
 import model.Button;
 import model.Map;
 import model.Paths;
@@ -17,11 +18,18 @@ class Demo {
 
     public static void main(String[] args) throws IOException {
 
-        testMap(null);
+        //testMap(null);
         //play();
         //display();
         //testBundle();
+        screenshot(null);
+        //testLogs();
 
+    }
+
+    private static void testLogs() {
+
+        LogsManager logs = new LogsManager();
     }
 
     private static void testBundle() throws IOException {
@@ -36,6 +44,7 @@ class Demo {
     }
 
     static void testMap(IDevice device) {
+        LogsManager.initLogManager();
         ADBManager.setPhone();
         device = ADBManager.device;
         ImageManager.setDevice(device);
@@ -43,10 +52,10 @@ class Demo {
         ImageManager.getScreen();
         //ImageManager.loadTestImage();
         Map.updateMap();
-        Map.displayMap();
+        LogsManager.getLog().info(Map.displayMap());
         Paths paths = new Paths();
         paths.calcPaths();
-        paths.getPaths();
+        LogsManager.getLog().info(paths.getPaths());
         //paths.getMax().tapIn();
         System.out.println(paths.getMax().getType());
         //ImageManager.saveImage(paths.getMax().getBuffI());
@@ -54,6 +63,8 @@ class Demo {
     }
 
     static void screenshot(IDevice device) {
+        ADBManager.setPhone();
+        device = ADBManager.device;
         ImageManager.setDevice(device);
         ImageManager.getScreen();
         ImageManager.saveScreenshot();

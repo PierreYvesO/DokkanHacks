@@ -2,6 +2,7 @@ package model;
 
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.NullOutputReceiver;
+import manager.ScreenPixelManager;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,12 +12,12 @@ public class Button {
     final int x, y, w, h;
     static int mode = 0;
 
-    public Button(int x, int y, int w, int h) {
+    public Button(int[] x, int[] y, int[] w, int[] h) {
 
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+        this.x = x[ScreenPixelManager.screenResolution];
+        this.y = y[ScreenPixelManager.screenResolution];
+        this.w = w[ScreenPixelManager.screenResolution];
+        this.h = h[ScreenPixelManager.screenResolution];
     }
 
     public static void setMode(int choice) {

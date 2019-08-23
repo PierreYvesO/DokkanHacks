@@ -134,7 +134,7 @@ public class ImageManager {
                 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f, 1f / 9f});
         BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
         img = op.filter(img, null);
-        saveImage(img);
+        //saveImage(img);
         return img;
 
     }

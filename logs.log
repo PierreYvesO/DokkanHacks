@@ -1,0 +1,24 @@
+août 22, 2019 2:14:18 PM main.Demo testMap
+INFO: RBW TEQ RBW TEQ TEQ 
+RBW TEQ INT PHY 
+TEQ RBW STR STR TEQ 
+STR INT PHY AGL 
+AGL TEQ INT PHY TEQ 
+
+août 22, 2019 2:14:19 PM main.Demo testMap
+INFO: 
+TEQ
+--TEQ 1 
+
+PHY
+--PHY 2 
+
+TEQ
+--TEQ 1 
+
+AGL
+--AGL 1 
+
+INT
+--INT 5 
+

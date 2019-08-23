@@ -37,6 +37,7 @@ public class Form {
     Form() {
         form = this;
 
+
         validerButton.addActionListener(e -> {
             int lvlCommand = Integer.parseInt(lvl.getSelection().getActionCommand());
             int modeCommand = Integer.parseInt(mode.getSelection().getActionCommand());
@@ -111,22 +112,22 @@ public class Form {
         panel1.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         rootPanel.add(panel1, new GridConstraints(0, 4, 4, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        this.$$$loadLabelText$$$(label2, ResourceBundle.getBundle("strings").getString("nbTours"));
+        this.$$$loadLabelText$$$(label2, ResourceBundle.getBundle("singleton/strings").getString("nbTours"));
         panel1.add(label2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nombreDeToursTextField = new JTextField();
         panel1.add(nombreDeToursTextField, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label3 = new JLabel();
-        this.$$$loadLabelText$$$(label3, ResourceBundle.getBundle("strings").getString("mode"));
+        this.$$$loadLabelText$$$(label3, ResourceBundle.getBundle("ressources/strings").getString("mode"));
         panel1.add(label3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         maximisationRadioButton = new JRadioButton();
         maximisationRadioButton.setActionCommand("2");
         maximisationRadioButton.setSelected(true);
-        this.$$$loadButtonText$$$(maximisationRadioButton, ResourceBundle.getBundle("strings").getString("max"));
+        this.$$$loadButtonText$$$(maximisationRadioButton, ResourceBundle.getBundle("ressources/strings").getString("max"));
         panel1.add(maximisationRadioButton, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         minimisationRadioButton = new JRadioButton();
         minimisationRadioButton.setActionCommand("1");
         minimisationRadioButton.setSelected(false);
-        this.$$$loadButtonText$$$(minimisationRadioButton, ResourceBundle.getBundle("strings").getString("min"));
+        this.$$$loadButtonText$$$(minimisationRadioButton, ResourceBundle.getBundle("ressources/strings").getString("min"));
         panel1.add(minimisationRadioButton, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         radioButton2 = new JRadioButton();
         radioButton2.setActionCommand("1");
@@ -157,7 +158,7 @@ public class Form {
         final Spacer spacer2 = new Spacer();
         rootPanel.add(spacer2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         label1 = new JLabel();
-        this.$$$loadLabelText$$$(label1, ResourceBundle.getBundle("strings").getString("choix"));
+        this.$$$loadLabelText$$$(label1, ResourceBundle.getBundle("ressources/strings").getString("choix"));
         label1.setVerifyInputWhenFocusTarget(false);
         rootPanel.add(label1, new GridConstraints(0, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
@@ -165,13 +166,13 @@ public class Form {
         rootPanel.add(panel2, new GridConstraints(4, 6, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         annulerButton = new JButton();
         annulerButton.setHorizontalAlignment(0);
-        this.$$$loadButtonText$$$(annulerButton, ResourceBundle.getBundle("strings").getString("annul"));
+        this.$$$loadButtonText$$$(annulerButton, ResourceBundle.getBundle("ressources/strings").getString("annul"));
         panel2.add(annulerButton);
         validerButton = new JButton();
-        this.$$$loadButtonText$$$(validerButton, ResourceBundle.getBundle("strings").getString("valid"));
+        this.$$$loadButtonText$$$(validerButton, ResourceBundle.getBundle("ressources/strings").getString("valid"));
         panel2.add(validerButton);
         final JLabel label4 = new JLabel();
-        this.$$$loadLabelText$$$(label4, ResourceBundle.getBundle("strings").getString("actuTours"));
+        this.$$$loadLabelText$$$(label4, ResourceBundle.getBundle("ressources/strings").getString("actuTours"));
         rootPanel.add(label4, new GridConstraints(4, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         actualround = new JLabel();
         actualround.setText("0");

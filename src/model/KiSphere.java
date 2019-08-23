@@ -13,14 +13,14 @@ public class KiSphere extends Button {
     private KiType type;
 
     private static final Integer[] AGL_KI = new Integer[]{39, 105, 226};
-    private static final Integer[] STR_KI = new Integer[]{254, 148, 170};
+    private static final Integer[] STR_KI = new Integer[]{255, 94, 127};
     private static final Integer[] TEQ_KI = new Integer[]{117, 222, 116};
     private static final Integer[] INT_KI = new Integer[]{194, 59, 229};
     private static final Integer[] RBW_KI = new Integer[]{230, 233, 195};
     private static final Integer[] PHY_KI = new Integer[]{254, 237, 130};
 
 
-    KiSphere(int x, int y, int w, int h) {
+    KiSphere(int[] x, int[] y, int[] w, int[] h) {
         super(x, y, w, h);
     }
 
@@ -29,7 +29,6 @@ public class KiSphere extends Button {
         Integer[] average = getAvgRGB();
 
         List<Double> l = (Arrays.asList(compareColor(PHY_KI, average), compareColor(INT_KI, average), compareColor(TEQ_KI, average), compareColor(AGL_KI, average), compareColor(STR_KI, average), compareColor(RBW_KI, average)));
-
 
         switch (l.indexOf(Collections.min(l))) {
             case 0:
@@ -67,11 +66,8 @@ public class KiSphere extends Button {
                     somme[0] += (clr & 0xff0000) >> 16;
                     nbcolor++;
                 }
-
             }
         }
-
-
         for (int i = 0; i < 3; i++) {
             somme[i] = somme[i] / nbcolor;
         }
@@ -86,12 +82,10 @@ public class KiSphere extends Button {
 
     public KiType getType() {
         return type;
-
     }
 
     private void setType(KiType type) {
         this.type = type;
-
     }
 
     void update() {

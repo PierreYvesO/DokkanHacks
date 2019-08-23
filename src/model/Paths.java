@@ -1,33 +1,36 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.TreeSet;
 
 public class Paths {
 
-    private HashMap<KiType, TreeSet<Path>> paths;
+    private HashMap<KiSphere, TreeSet<Path>> pathPos;
 
     public Paths() {
-        paths = new HashMap<>();
-        paths.put(KiType.PHY, new TreeSet<>());
-        paths.put(KiType.INT, new TreeSet<>());
-        paths.put(KiType.TEQ, new TreeSet<>());
-        paths.put(KiType.AGL, new TreeSet<>());
-        paths.put(KiType.STR, new TreeSet<>());
-        paths.put(KiType.RBW, new TreeSet<>());
+        pathPos = new HashMap<>();
+        ArrayList<KiSphere> map = Map.getMap().get(1);
+        pathPos.put(map.get(4), new TreeSet<>());
+        pathPos.put(map.get(3), new TreeSet<>());
+        pathPos.put(map.get(2), new TreeSet<>());
+        pathPos.put(map.get(1), new TreeSet<>());
+        pathPos.put(map.get(0), new TreeSet<>());
 
 
     }
 
     public void calcPaths() {
         Map.updateMap();
-        for (KiSphere ki : Map.getMap().get(1)) {
+        for (KiSphere ki : pathPos.keySet()) {
             for (KiType type : KiType.values()) {
                 Path p = new Path(ki, type);
+
                 if (p.getValue() > 0)
-                    paths.get(type).add(p);
+                    pathPos.get(ki).add(p);
             }
+
         }
     }
 
@@ -35,13 +38,13 @@ public class Paths {
         int max = 0;
         KiSphere maxKi = null;
 
-        for (KiType type : KiType.values()) {
+        for (KiSphere ki : pathPos.keySet()) {
             Path temp;
             try {
-                temp = paths.get(type).first();
+                temp = pathPos.get(ki).first();
                 if (temp.getValue() >= max) {
                     max = temp.getValue();
-                    maxKi = temp.getKisphere();
+                    maxKi = temp.getStartKisphere();
                 }
             } catch (NoSuchElementException ignored) {
 
@@ -49,26 +52,53 @@ public class Paths {
 
 
         }
+        clearPaths();
         return maxKi;
     }
 
     public KiSphere getMax(KiType type) {
-        try {
-            return paths.get(type).first().getKisphere();
-        } catch (NoSuchElementException e) {
-            return getMax();
-        }
-    }
+        int max = 0;
+        KiSphere maxKi = null;
 
-    public void getPaths() {
 
-        for (KiType t : paths.keySet()) {
-            System.out.print("\n" + t + "\n--");
-            for (Path p : paths.get(t)) {
-                System.out.print(p.getKisphere().getType().name() + " " + p.getValue() + " ");
+        for (KiSphere ki : pathPos.keySet()) {
+            Path temp;
+            temp = pathPos.get(ki).first();
+            if (temp.getValue() >= max && temp.getType() == type) {
+                max = temp.getValue();
+                maxKi = temp.getStartKisphere();
             }
-            System.out.println();
+        }
+
+        if (maxKi == null)
+            return getMax();
+        else
+            return maxKi;
+    }
+
+    public String getPaths() {
+
+        StringBuilder sb = new StringBuilder();
+
+
+        for (KiSphere t : pathPos.keySet()) {
+            sb.append("\n" + t.getType() + "\n--");
+            for (Path p : pathPos.get(t)) {
+                sb.append(p.getType() + " " + p.getValue() + " ");
+            }
+            sb.append("\n");
 
         }
+        return sb.toString();
     }
+
+    public void clearPaths() {
+        for (TreeSet<Path> set : pathPos.values()) {
+
+            set.clear();
+        }
+
+
+    }
+
 }

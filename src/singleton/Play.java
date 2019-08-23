@@ -2,69 +2,88 @@ package singleton;
 
 import main.Form;
 import manager.ImageManager;
-import model.Button;
-import model.Paths;
-import model.PixelButton;
-import model.RunButton;
+import manager.LogsManager;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Thread.sleep;
+import static manager.ScreenPixelManager.*;
 
 public class Play implements Runnable {
+
     private int lvl;
-    //Button you click to choose the level you play
-    private final PixelButton B_LEVEL = new PixelButton(110, 1285, 900, 115, 150, 1300, PixelButton.START_LVL_GREY);
-    private final PixelButton B_CLEARED = new PixelButton(0, 0, 0, 0, 200, 1012, PixelButton.START_LVL_CLEARED);
-    //Buttons for a level with 3 difficulties
-    private final Button B_DIFF_LEFT_3 = new Button(130, 1235, 220, 220);
-    private final Button B_DIFF_MIDDLE_3 = new Button(430, 1235, 220, 220);
-    private final Button B_DIFF_RIGHT_3 = new Button(730, 1235, 220, 220);
-    //Buttons for a level with 2 difficulties
-    private final Button B_DIFF_LEFT_2 = new Button(270, 1235, 220, 220);
-    private final Button B_DIFF_RIGHT_2 = new Button(590, 1235, 220, 220);
-    //Button you click to use a certain path on the map
-    private final PixelButton B_MULTIPATH_TOP_R = new PixelButton(661, 829, 130, 75, 726, 866, PixelButton.MULTIPATH_BLUE);
-    private final PixelButton B_MULTIPATH_TOP_L = new PixelButton(292, 829, 130, 75, 357, 866, PixelButton.MULTIPATH_BLUE);
-    private final PixelButton B_MULTIPATH_BOT_L = new PixelButton(292, 1016, 130, 75, 357, 1053, PixelButton.MULTIPATH_BLUE);
-    private final PixelButton B_MULTIPATH_BOT_R = new PixelButton(661, 1016, 130, 75, 726, 1053, PixelButton.MULTIPATH_BLUE);
-
-    //Button to choose a friend
-    private final Button B_FRIEND = new Button(65, 605, 950, 195);
-
-    //Button to start the level
-    private final Button B_START = new Button(805, 1555, 225, 90);
-
-
-    //Button to check the fighting state
-    private final PixelButton figthingState_1 = new PixelButton(0, 0, 0, 0, 980, 233, PixelButton.FIGHT_ORANGE);
-    private final PixelButton figthingState_2 = new PixelButton(0, 0, 0, 0, 1016, 336, PixelButton.FIGHT_GREEN);
-    private final PixelButton figthingState_3 = new PixelButton(0, 0, 0, 0, 955, 335, PixelButton.FIGHT_BLUE);
-    private final PixelButton figthingState_4 = new PixelButton(0, 0, 0, 0, 935, 273, PixelButton.FIGHT_RED);
-
     /**
      * Instance unique pré-initialisée
      */
     private static Play INSTANCE = new Play();
+    //Button you click to choose the level you play
+    private final PixelButton B_LEVEL_1 =
+            new PixelButton(PX_LEVEL_X, PX_LEVEL_Y, PX_LEVEL_W, PX_LEVEL_H,
+                    PX_LEVEL_CHECK_X, PX_LEVEL_CHECK_Y, PixelButton.START_LVL_STAR_1);
+    private final PixelButton B_LEVEL_2 =
+            new PixelButton(PX_LEVEL_X, PX_LEVEL_Y, PX_LEVEL_W, PX_LEVEL_H,
+                    PX_LEVEL_CHECK_X, PX_LEVEL_CHECK_Y, PixelButton.START_LVL_STAR_2);
+    private final PixelButton B_CLEARED =
+            new PixelButton(PX_NULL, PX_NULL, PX_NULL, PX_NULL, PX_CLEARED_CHECK_X, PX_CLEARED_CHECK_Y, PixelButton.START_LVL_CLEARED);
+    //Buttons for a level with 3 difficulties
+    private final Button B_DIFF_LEFT_3 = new Button(PX_DIFF_LEFT_3_X, PX_DIFF_Y, PX_DIFF_W, PX_DIFF_H);
+    private final Button B_DIFF_MIDDLE_3 = new Button(PX_DIFF_MIDDLE_3_X, PX_DIFF_Y, PX_DIFF_W, PX_DIFF_H);
+    private final Button B_DIFF_RIGHT_3 = new Button(PX_DIFF_RIGHT_3_X, PX_DIFF_Y, PX_DIFF_W, PX_DIFF_H);
+    //Buttons for a level with 2 difficulties
+    private final Button B_DIFF_LEFT_2 = new Button(PX_DIFF_LEFT_2_X, PX_DIFF_Y, PX_DIFF_W, PX_DIFF_H);
+    private final Button B_DIFF_RIGHT_2 = new Button(PX_DIFF_RIGHT_2_X, PX_DIFF_Y, PX_DIFF_W, PX_DIFF_H);
+    //Button you click to use a certain path on the map
+    private final PixelButton B_MULTIPATH_TOP_R =
+            new PixelButton(PX_B_MULTIPATH_TOP_R_X, PX_B_MULTIPATH_TOP_R_Y, PX_B_MULTIPATH_W, PX_B_MULTIPATH_H,
+                    PX_B_MULTIPATH_TOP_R_CHECK_X, PX_B_MULTIPATH_TOP_R_CHECK_Y, PixelButton.MULTIPATH_BLUE);
+    private final PixelButton B_MULTIPATH_TOP_L =
+            new PixelButton(PX_B_MULTIPATH_TOP_L_X, PX_B_MULTIPATH_TOP_L_Y, PX_B_MULTIPATH_W, PX_B_MULTIPATH_H,
+                    PX_B_MULTIPATH_TOP_L_CHECK_X, PX_B_MULTIPATH_TOP_L_CHECK_Y, PixelButton.MULTIPATH_BLUE);
+    private final PixelButton B_MULTIPATH_BOT_L =
+            new PixelButton(PX_B_MULTIPATH_BOT_L_X, PX_B_MULTIPATH_BOT_L_Y, PX_B_MULTIPATH_W, PX_B_MULTIPATH_H,
+                    PX_B_MULTIPATH_BOT_L_CHECK_X, PX_B_MULTIPATH_BOT_L_CHECK_Y, PixelButton.MULTIPATH_BLUE);
+    private final PixelButton B_MULTIPATH_BOT_R =
+            new PixelButton(PX_B_MULTIPATH_BOT_R_X, PX_B_MULTIPATH_BOT_R_Y, PX_B_MULTIPATH_W, PX_B_MULTIPATH_H,
+                    PX_B_MULTIPATH_BOT_R_CHECK_X, PX_B_MULTIPATH_BOT_R_CHECK_Y, PixelButton.MULTIPATH_BLUE);
+    //Button to skip in figth mode
+    private final PixelButton B_SKIP =
+            new PixelButton(PX_SKIP_X, PX_SKIP_Y, PX_SKIP_W, PX_SKIP_H, PX_SKIP_CHECK_X, PX_SKIP_CHECK_Y, PixelButton.SKIP);
+    //Button to choose a friend
+    private final Button B_FRIEND = new Button(PX_FRIEND_X, PX_FRIEND_Y, PX_FRIEND_W, PX_FRIEND_H);
+    //Button to start the level
+    private final Button B_START = new Button(PX_START_X, PX_START_Y, PX_START_W, PX_START_H);
+    //Button to check the fighting state
+    private final PixelButton figthingState_1 =
+            new PixelButton(PX_NULL, PX_NULL, PX_NULL, PX_NULL, PX_FIGHTING_STATE_1_CHECK_X, PX_FIGHTING_STATE_1_CHECK_Y, PixelButton.FIGHT_ORANGE);
+    private final PixelButton figthingState_2 =
+            new PixelButton(PX_NULL, PX_NULL, PX_NULL, PX_NULL, PX_FIGHTING_STATE_2_CHECK_X, PX_FIGHTING_STATE_2_CHECK_Y, PixelButton.FIGHT_GREEN);
+    private final PixelButton figthingState_3 =
+            new PixelButton(PX_NULL, PX_NULL, PX_NULL, PX_NULL, PX_FIGHTING_STATE_3_CHECK_X, PX_FIGHTING_STATE_3_CHECK_Y, PixelButton.FIGHT_BLUE);
+    private final PixelButton figthingState_4 =
+            new PixelButton(PX_NULL, PX_NULL, PX_NULL, PX_NULL, PX_FIGHTING_STATE_4_CHECK_X, PX_FIGHTING_STATE_4_CHECK_Y, PixelButton.FIGHT_RED);
     //Button you click to go through the map
-    private final RunButton B_RUN_LEFT = new RunButton(203, 1575, 100, 100, 249, 1665);
-    private final RunButton B_RUN_MIDDLE = new RunButton(493, 1535, 100, 100, 538, 1628);
+    private final RunButton B_RUN_LEFT =
+            new RunButton(PX_B_RUN_LEFT_X, PX_B_RUN_LEFT_Y, PX_B_RUN_W, PX_B_RUN_H, PX_B_RUN_LEFT_CHECK_X, PX_B_RUN_LEFT_CHECK_Y);
     private int round;
     private int actualround;
-    private final RunButton B_RUN_RIGHT = new RunButton(783, 1495, 100, 100, 828, 1588);
+    private final RunButton B_RUN_MIDDLE =
+            new RunButton(PX_B_RUN_MIDDLE_X, PX_B_RUN_MIDDLE_Y, PX_B_RUN_W, PX_B_RUN_H, PX_B_RUN_MIDDLE_CHECK_X, PX_B_RUN_MIDDLE_CHECK_Y);
     //Minimisation (1) ou Maximisation (0) du trajet
     private int run_mode;
-
+    private final RunButton B_RUN_RIGHT =
+            new RunButton(PX_B_RUN_RIGTH_X, PX_B_RUN_RIGTH_Y, PX_B_RUN_W, PX_B_RUN_H, PX_B_RUN_RIGTH_CHECK_X, PX_B_RUN_RIGTH_CHECK_Y);
     //Button to click when u finish the fight
-    private final PixelButton B_KO = new PixelButton(100, 630, 900, 900, 263, 963, PixelButton.END_FIGHT_ORANGE);
-
+    private final PixelButton B_KO = new PixelButton(PX_KO_X, PX_KO_Y, PX_KO_W, PX_KO_H, PX_KO_CHECK_X, PX_KO_CHECK_Y, PixelButton.END_FIGHT_ORANGE);
     //Buttons you click at the end of the level
-    private final PixelButton B_END = new PixelButton(350, 1765, 375, 85, 436, 1796, PixelButton.END_LVL_ORANGE);
-    private final Button B_FRIEND_REQ = new Button(115, 1205, 375, 90);
+    private final PixelButton B_END =
+            new PixelButton(PX_END_X, PX_END_Y, PX_END_W, PX_END_H, PX_END_CHECK_X, PX_END_CHECK_Y, PixelButton.END_LVL_ORANGE);
     private String state = "run";
+    private final Button B_FRIEND_REQ = new Button(PX_FRIEND_REQ_X, PX_FRIEND_REQ_Y, PX_FRIEND_REQ_W, PX_FRIEND_REQ_H);
 
     public static Play getInstance(int lvl, int run_mode, int round) {
+        LogsManager.initLogManager();
         INSTANCE.lvl = lvl;
         INSTANCE.run_mode = run_mode;
         INSTANCE.round = round;
@@ -105,17 +124,22 @@ public class Play implements Runnable {
 
     private void fight() {
 
-
+        checkSkip();
         if (B_KO.check()) {
+            state = "run";
             System.out.println("KO detected...");
             B_KO.tapIn();
-            wait(1500);
+            wait(2000);
+            checkSkip();
             B_KO.tapIn();
             wait(1500);
+            checkSkip();
             B_KO.tapIn();
             wait(3000);
-            state = "run";
+            checkSkip();
+
             System.out.println("End Fighting ...");
+
 
         } else if (figthingState_1.check() && figthingState_2.check() &&
                 figthingState_3.check() && figthingState_4.check()) {
@@ -123,30 +147,43 @@ public class Play implements Runnable {
 
             Paths paths = new Paths();
             paths.calcPaths();
+            LogsManager.getLog().info(Map.displayMap());
+            LogsManager.getLog().info(paths.getPaths());
             paths.getMax().tapIn();
-            wait(3000);
+            wait(4000);
 
+            paths = new Paths();
             paths.calcPaths();
+            LogsManager.getLog().info(Map.displayMap());
+            LogsManager.getLog().info(paths.getPaths());
+            paths.getMax().tapIn();
+            wait(4000);
+
+            paths = new Paths();
+            paths.calcPaths();
+            LogsManager.getLog().info(Map.displayMap());
+            LogsManager.getLog().info(paths.getPaths());
             paths.getMax().tapIn();
 
-            wait(3000);
-            paths.calcPaths();
-            paths.getMax().tapIn();
 
         } else if (B_END.check()) {
             B_END.tapIn();
             wait(1500);
             B_FRIEND_REQ.tapIn();
             System.out.println("End Lvl");
-            wait(10000);
+            wait(1000);
             state = "start";
             actualround++;
             Form.form.setActualRound(actualround);
         } else if (B_RUN_LEFT.check())
             state = "run";
-        wait(3000);
 
 
+    }
+
+    private void checkSkip() {
+        if (B_SKIP.check()) B_SKIP.tapIn();
+        state = "fight";
     }
 
     private void pathRun() {
@@ -260,10 +297,10 @@ public class Play implements Runnable {
     private void levelChooser() throws InterruptedException {
         resetRun();
         System.out.println("clic niveau");
-        while (!B_LEVEL.check()) {
+        while (!B_LEVEL_1.check() && !B_LEVEL_2.check()) {
             ImageManager.getScreen();
         }
-        B_LEVEL.tapIn();
+        B_LEVEL_1.tapIn();
         System.out.println("clic difficulté");
         while (!B_CLEARED.check()) {
             ImageManager.getScreen();

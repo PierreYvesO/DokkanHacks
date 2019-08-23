@@ -30,6 +30,9 @@ public class Path implements Comparable {
     }
 
     private int getSides(int line, int pos) {
+        if (type == KiType.RBW) {
+            return 0;
+        }
         int sides = 0;
         int max;
         if (line % 2 != 0) {
@@ -59,19 +62,23 @@ public class Path implements Comparable {
     }
 
     private int getUp(int line, int pos) {
-        System.out.println(line + " " + pos);
         if (pos < 0 || (line % 2 == 0 && pos > 3) || (line % 2 != 0 && pos > 4))
             return 0;
 
         if (Map.getMap().get(line).get(pos).getType() == type || Map.getMap().get(line).get(pos).getType() == KiType.RBW) {
-            System.out.println(line + "-" + pos);
             int sides = getSides(line, pos);
-            System.out.println("sides =" + sides);
             if (line == 5) {
                 return getSides(line, pos) + 1;
             }
+            if (line == 1 && Map.getMap().get(line).get(pos).getType() == KiType.RBW) {
+                int max;
+                if ((max = max(getUp(line + 1, pos - 1), getUp(line + 1, pos))) == 0) {
+                    return max + 1;
+                }
+            }
             if (line % 2 == 0) {
                 return max(getUp(line + 1, pos), getUp(line + 1, pos + 1)) + 1 + sides;
+
             } else {
                 return max(getUp(line + 1, pos - 1), getUp(line + 1, pos)) + 1 + sides;
             }
@@ -95,8 +102,12 @@ public class Path implements Comparable {
             return false;
     }*/
 
-    KiSphere getKisphere() {
+    KiSphere getStartKisphere() {
         return start;
+    }
+
+    KiType getType() {
+        return type;
     }
 
     private int max(int a, int b) {
