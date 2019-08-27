@@ -95,16 +95,14 @@ public class Play implements Runnable {
     @Override
     public void run() {
         while (actualround <= round) {
+
             //Recupere l'image actuelle a l'ecran
             ImageManager.getScreen();
             //Partie Selection du niveau et ami
+            LogsManager.getLog().info(state);
             switch (state) {
                 case "start":
-                    try {
-                        levelChooser();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    levelChooser();
                     break;
 
                 //Partie du parcours de la carte
@@ -126,24 +124,23 @@ public class Play implements Runnable {
 
         checkSkip();
         if (B_KO.check()) {
-            state = "run";
-            System.out.println("KO detected...");
+            LogsManager.getLog().info("K.O.");
             B_KO.tapIn();
-            wait(2000);
-            checkSkip();
             B_KO.tapIn();
-            wait(1500);
-            checkSkip();
+            wait(3000);
+            B_KO.tapIn();
+            B_KO.tapIn();
+            wait(3000);
+            B_KO.tapIn();
             B_KO.tapIn();
             wait(3000);
             checkSkip();
 
-            System.out.println("End Fighting ...");
 
 
         } else if (figthingState_1.check() && figthingState_2.check() &&
                 figthingState_3.check() && figthingState_4.check()) {
-
+            LogsManager.getLog().info("Orbs");
 
             Paths paths = new Paths();
             paths.calcPaths();
@@ -164,20 +161,22 @@ public class Play implements Runnable {
             LogsManager.getLog().info(Map.displayMap());
             LogsManager.getLog().info(paths.getPaths());
             paths.getMax().tapIn();
+            wait(4000);
 
 
         } else if (B_END.check()) {
             B_END.tapIn();
-            wait(1500);
+            wait(1000);
             B_FRIEND_REQ.tapIn();
-            System.out.println("End Lvl");
             wait(1000);
             state = "start";
             actualround++;
             Form.form.setActualRound(actualround);
-        } else if (B_RUN_LEFT.check())
+            LogsManager.getLog().info("End Lvl");
+        } else if (B_RUN_LEFT.check()) {
+            LogsManager.getLog().info("End Fighting ...");
             state = "run";
-
+        }
 
     }
 
@@ -191,16 +190,16 @@ public class Play implements Runnable {
             String color = B_RUN_RIGHT.getColor();
 
             if (color.equals("orange")) {
-                System.out.println("Orange recognized...");
+                LogsManager.getLog().info("Orange recognized...");
 
                 if (run_mode == 1)
                     chooseRunButtonMin();
                 else
                     chooseRunButtonMax();
             } else {
-                System.out.println("Grey recognized...");
+                LogsManager.getLog().info("Grey recognized...");
                 if (B_MULTIPATH_TOP_R.check() || B_MULTIPATH_BOT_L.check() || B_MULTIPATH_TOP_L.check() || B_MULTIPATH_BOT_R.check()) {
-                    System.out.println("MultiPath recognized...");
+                    LogsManager.getLog().info("MultiPath recognized...");
 
                     ArrayList<PixelButton> tab_multi = new ArrayList<>();
                     if (B_MULTIPATH_TOP_R.check()) {
@@ -221,9 +220,9 @@ public class Play implements Runnable {
                 wait(1000);
             }
         } else {
+            if (!state.equals("figth"))
+                LogsManager.getLog().info("Fighting...");
             state = "fight";
-            System.out.println("Fighting...");
-
         }
     }
 
@@ -238,7 +237,7 @@ public class Play implements Runnable {
         if (B_RUN_RIGHT.updateStatus())
             B_RUN_RIGHT.update();
 
-        System.out.println("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
+        LogsManager.getLog().info("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
 
         if (B_RUN_LEFT.getValue() >= B_RUN_MIDDLE.getValue() &&
                 B_RUN_LEFT.getValue() > B_RUN_RIGHT.getValue()) {
@@ -267,7 +266,7 @@ public class Play implements Runnable {
         if (B_RUN_RIGHT.updateStatus())
             B_RUN_RIGHT.update();
 
-        System.out.println("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
+        LogsManager.getLog().info("" + B_RUN_LEFT.getValue() + " " + B_RUN_MIDDLE.getValue() + " " + B_RUN_RIGHT.getValue());
 
         if (B_RUN_LEFT.getValue() <= B_RUN_MIDDLE.getValue() &&
                 B_RUN_LEFT.getValue() < B_RUN_RIGHT.getValue()) {
@@ -294,14 +293,14 @@ public class Play implements Runnable {
         }
     }
 
-    private void levelChooser() throws InterruptedException {
+    private void levelChooser() {
         resetRun();
-        System.out.println("clic niveau");
+        LogsManager.getLog().info("clic niveau");
         while (!B_LEVEL_1.check() && !B_LEVEL_2.check()) {
             ImageManager.getScreen();
         }
         B_LEVEL_1.tapIn();
-        System.out.println("clic difficulté");
+        LogsManager.getLog().info("clic difficulté");
         while (!B_CLEARED.check()) {
             ImageManager.getScreen();
         }
@@ -328,13 +327,13 @@ public class Play implements Runnable {
                 break;
         }
         b.tapIn();
-        sleep(4000);
-        System.out.println("clic ami"); //517 713
+        wait(4000);
+        LogsManager.getLog().info("clic ami"); //517 713
         B_FRIEND.tapIn();
-        sleep(4000);
-        System.out.println("clic demarrer");//907 1582
+        wait(4000);
+        LogsManager.getLog().info("clic demarrer");//907 1582
         B_START.tapIn();
-        sleep(8000);
+        wait(8000);
         state = "run";
     }
 

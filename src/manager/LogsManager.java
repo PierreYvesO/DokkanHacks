@@ -1,9 +1,10 @@
 package manager;
 
+import model.MyFormatter;
+
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class LogsManager {
 
@@ -17,7 +18,7 @@ public class LogsManager {
             // This block configure the logger with handler and formatter
             fh = new FileHandler("logs.log");
             logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
+            MyFormatter formatter = new MyFormatter();
             fh.setFormatter(formatter);
             logger.setUseParentHandlers(false);
 
@@ -35,4 +36,6 @@ public class LogsManager {
             System.out.println("logs failure");
         return logger;
     }
+
+
 }

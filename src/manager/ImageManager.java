@@ -118,6 +118,13 @@ public class ImageManager {
 
     }
 
+    static public String getScreenResolution() {
+        BufferedImage img = getBufferedImage();
+
+        return img.getHeight() + " " + img.getWidth();
+
+    }
+
     public static BufferedImage processBI(BufferedImage img) {
         for (int i = 0; i < img.getWidth(); i++) {
             for (int j = 0; j < img.getHeight(); j++) {

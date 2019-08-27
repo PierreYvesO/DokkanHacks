@@ -13,6 +13,10 @@ public class Button {
     static int mode = 0;
 
     public Button(int[] x, int[] y, int[] w, int[] h) {
+        int res = ScreenPixelManager.screenResolution;
+        if (res < 0) {
+            System.exit(0);
+        }
 
         this.x = x[ScreenPixelManager.screenResolution];
         this.y = y[ScreenPixelManager.screenResolution];

@@ -22,7 +22,7 @@
             </constraints>
             <properties>
               <labelFor value="8d48"/>
-              <text resource-bundle="singleton/strings" key="nbTours"/>
+              <text resource-bundle="ressources/strings" key="nbTours"/>
             </properties>
           </component>
           <component id="8d48" class="javax.swing.JTextField" binding="nombreDeToursTextField" default-binding="true">

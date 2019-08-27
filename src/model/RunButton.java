@@ -6,6 +6,7 @@ import net.sourceforge.tess4j.TesseractException;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URISyntaxException;
 
 public class RunButton extends PixelButton {
 
@@ -23,13 +24,19 @@ public class RunButton extends PixelButton {
         super(x, y, w, h, xpx, ypx, null);
         tesseract = new Tesseract();
         tesseract.setLanguage("digits");
-        File tessdata = new File("DH\\src\\ressources");
-        tesseract.setDatapath(tessdata.getAbsolutePath());
+        String tessdata = "";
+        try {
+            tessdata = new File(RunButton.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getParent();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        tesseract.setDatapath(tessdata);
     }
 
 
     private void getImage() {
-        img = ImageManager.getBufferedImage().getSubimage(x + 15, y + 10, 70, 70);
+        img = ImageManager.getBufferedImage().getSubimage(x, y, w, h);
     }
 
     private void setValue() {
@@ -41,6 +48,9 @@ public class RunButton extends PixelButton {
         }
         text = text.replace("7", "1");
         text = text.replaceAll("[\\r\\n]", "");
+        if (text.equals("")) {
+            text = "5";
+        }
         value = Integer.parseInt(text);
     }
 
@@ -49,7 +59,9 @@ public class RunButton extends PixelButton {
     }
 
     public void update() {
+
         getImage();
+        //ImageManager.saveImage(img);
         setValue();
         updated = true;
     }

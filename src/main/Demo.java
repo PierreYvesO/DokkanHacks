@@ -4,6 +4,7 @@ import com.android.ddmlib.IDevice;
 import manager.ADBManager;
 import manager.ImageManager;
 import manager.LogsManager;
+import manager.ScreenPixelManager;
 import model.Button;
 import model.Map;
 import model.Paths;
@@ -50,12 +51,13 @@ class Demo {
         ImageManager.setDevice(device);
         Button.setDevice(device);
         ImageManager.getScreen();
+        ScreenPixelManager.init();
         //ImageManager.loadTestImage();
         Map.updateMap();
-        LogsManager.getLog().info(Map.displayMap());
+        System.out.println(Map.displayMap());
         Paths paths = new Paths();
         paths.calcPaths();
-        LogsManager.getLog().info(paths.getPaths());
+        System.out.println(paths.getPaths());
         //paths.getMax().tapIn();
         System.out.println(paths.getMax().getType());
         //ImageManager.saveImage(paths.getMax().getBuffI());
@@ -67,6 +69,9 @@ class Demo {
         device = ADBManager.device;
         ImageManager.setDevice(device);
         ImageManager.getScreen();
+        System.out.println(ImageManager.getBufferedImage().getHeight());
+        System.out.println(ImageManager.getBufferedImage().getWidth());
+        ADBManager.finish();
         ImageManager.saveScreenshot();
     }
 

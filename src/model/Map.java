@@ -24,22 +24,22 @@ public class Map {
             new KiSphere(PX_KI_R2_P3_X, PX_KI_R2_P3_Y, PX_KI_R2_W, PX_KI_R2_H),
             new KiSphere(PX_KI_R2_P4_X, PX_KI_R2_P4_Y, PX_KI_R2_W, PX_KI_R2_H)));
     private static final ArrayList<KiSphere> ROW3 = new ArrayList<>(Arrays.asList(
-            new KiSphere(336, 487, 60, 60),
-            new KiSphere(420, 571, 60, 60),
-            new KiSphere(559, 638, 60, 60),
-            new KiSphere(714, 664, 60, 60),
-            new KiSphere(840, 672, 60, 60)));
+            new KiSphere(PX_KI_R3_P1_X, PX_KI_R3_P1_Y, PX_KI_R3_W, PX_KI_R3_H),
+            new KiSphere(PX_KI_R3_P2_X, PX_KI_R3_P2_Y, PX_KI_R3_W, PX_KI_R3_H),
+            new KiSphere(PX_KI_R3_P3_X, PX_KI_R3_P3_Y, PX_KI_R3_W, PX_KI_R3_H),
+            new KiSphere(PX_KI_R3_P4_X, PX_KI_R3_P4_Y, PX_KI_R3_W, PX_KI_R3_H),
+            new KiSphere(PX_KI_R3_P5_X, PX_KI_R3_P5_Y, PX_KI_R3_W, PX_KI_R3_H)));
     private static final ArrayList<KiSphere> ROW4 = new ArrayList<>(Arrays.asList(
-            new KiSphere(446, 498, 45, 45),
-            new KiSphere(531, 564, 45, 45),
-            new KiSphere(646, 602, 45, 45),
-            new KiSphere(758, 613, 45, 45)));
+            new KiSphere(PX_KI_R4_P1_X, PX_KI_R4_P1_Y, PX_KI_R4_W, PX_KI_R4_H),
+            new KiSphere(PX_KI_R4_P2_X, PX_KI_R4_P2_Y, PX_KI_R4_W, PX_KI_R4_H),
+            new KiSphere(PX_KI_R4_P3_X, PX_KI_R4_P3_Y, PX_KI_R4_W, PX_KI_R4_H),
+            new KiSphere(PX_KI_R4_P4_X, PX_KI_R4_P4_Y, PX_KI_R4_W, PX_KI_R4_H)));
     private static final ArrayList<KiSphere> ROW5 = new ArrayList<>(Arrays.asList(
-            new KiSphere(477, 446, 35, 35),
-            new KiSphere(541, 492, 35, 35),
-            new KiSphere(619, 529, 35, 35),
-            new KiSphere(706, 563, 35, 35),
-            new KiSphere(777, 557, 35, 35)));
+            new KiSphere(PX_KI_R5_P1_X, PX_KI_R5_P1_Y, PX_KI_R5_W, PX_KI_R5_H),
+            new KiSphere(PX_KI_R5_P2_X, PX_KI_R5_P2_Y, PX_KI_R5_W, PX_KI_R5_H),
+            new KiSphere(PX_KI_R5_P3_X, PX_KI_R5_P3_Y, PX_KI_R5_W, PX_KI_R5_H),
+            new KiSphere(PX_KI_R5_P4_X, PX_KI_R5_P4_Y, PX_KI_R5_W, PX_KI_R5_H),
+            new KiSphere(PX_KI_R5_P5_X, PX_KI_R5_P5_Y, PX_KI_R5_W, PX_KI_R5_H)));
 
 
     private static java.util.Map<Integer, ArrayList<KiSphere>> map = java.util.Map.of(1, ROW1, 2, ROW2, 3, ROW3, 4, ROW4, 5, ROW5);
@@ -62,7 +62,6 @@ public class Map {
                 sb.append(ki.getType().name() + " ");
             }
             sb.append("\n");
-
         }
         return sb.toString();
 

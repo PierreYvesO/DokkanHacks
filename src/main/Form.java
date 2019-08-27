@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import manager.ADBManager;
 import manager.ImageManager;
+import manager.ScreenPixelManager;
 import model.Button;
 import singleton.Play;
 
@@ -45,6 +46,9 @@ public class Form {
             ADBManager.setPhone();
             Button.setDevice(ADBManager.device);
             ImageManager.setDevice(ADBManager.device);
+            ImageManager.getScreen();
+            ScreenPixelManager.init();
+            System.out.println(ImageManager.getScreenResolution());
 
             try {
                 if (thread == null) {
@@ -112,7 +116,7 @@ public class Form {
         panel1.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         rootPanel.add(panel1, new GridConstraints(0, 4, 4, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        this.$$$loadLabelText$$$(label2, ResourceBundle.getBundle("singleton/strings").getString("nbTours"));
+        this.$$$loadLabelText$$$(label2, ResourceBundle.getBundle("ressources/strings").getString("nbTours"));
         panel1.add(label2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nombreDeToursTextField = new JTextField();
         panel1.add(nombreDeToursTextField, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
